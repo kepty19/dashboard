@@ -2,7 +2,10 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Kepty Dashboard - Learning Stats</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -12,17 +15,16 @@
         :root {
             --kepty-orange: #CE4A22;
             --kepty-mid-orange: #FAC3B1;
-            --kepty-light-orange: #FFEDE8;
             --kepty-dark: #2A0B02;
         }
         body {
             font-family: 'Inter', -apple-system, sans-serif;
-            /* ウェルカム画面のグラデーションを再現 */
             background: radial-gradient(circle at 50% 50%, #FF6B3D 0%, #CE4A22 45%, #2A0B02 100%);
             min-height: 100vh;
             color: white;
             padding: 20px;
             margin: 0;
+            -webkit-font-smoothing: antialiased;
         }
         .dashboard-container {
             max-width: 800px;
@@ -31,6 +33,7 @@
         .glass-card {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             border-radius: 24px;
             border: 1px solid rgba(255, 255, 255, 0.15);
             padding: 24px;
@@ -40,7 +43,6 @@
             width: 100%;
             height: 240px;
         }
-        /* テキストのシャープ化 */
         .text-sharp {
             letter-spacing: -0.02em;
         }
@@ -65,16 +67,30 @@
             <div class="flex items-center justify-between mb-2">
                 <div class="flex items-center gap-2">
                     <div class="w-2 h-6 bg-[#FAC3B1] rounded-full"></div>
-                    <h2 class="text-lg font-semibold tracking-tight">今週の目標</h2>
+                    <h2 class="text-lg font-semibold tracking-tight">今週の日次進捗</h2>
                 </div>
                 <button class="bg-white/10 hover:bg-white/20 px-4 py-1.5 rounded-full text-xs font-bold border border-white/20 transition">変更</button>
             </div>
             
-            <div class="flex items-baseline gap-1 mb-6 text-sharp">
-                <span class="text-3xl font-bold">03</span>
-                <span class="text-sm font-medium opacity-80 mr-2">時間</span>
-                <span class="text-3xl font-bold">30</span>
-                <span class="text-sm font-medium opacity-80">分</span>
+            <div class="flex gap-6 mb-4 text-sharp">
+                <div class="flex flex-col">
+                    <span class="text-[10px] font-bold opacity-60 uppercase tracking-widest mb-0.5">今週の目標</span>
+                    <div class="flex items-baseline">
+                        <span class="text-xl font-bold">03</span>
+                        <span class="text-[10px] font-medium opacity-60 ml-0.5 mr-1.5">時間</span>
+                        <span class="text-xl font-bold">30</span>
+                        <span class="text-[10px] font-medium opacity-60 ml-0.5">分</span>
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-[10px] font-bold opacity-60 uppercase tracking-widest mb-0.5">今週の総学習時間</span>
+                    <div class="flex items-baseline text-white">
+                        <span class="text-xl font-bold">03</span>
+                        <span class="text-[10px] font-medium opacity-60 ml-0.5 mr-1.5">時間</span>
+                        <span class="text-xl font-bold">19</span>
+                        <span class="text-[10px] font-medium opacity-60 ml-0.5">分</span>
+                    </div>
+                </div>
             </div>
 
             <div class="relative h-[180px] w-full bg-white/5 rounded-2xl p-4">
@@ -125,9 +141,8 @@
 <script>
     lucide.createIcons();
 
-    // --- 円形グラフ ---
+    // 円形グラフ
     const ctxCircle = document.getElementById('circleChart').getContext('2d');
-    
     const centerTextPlugin = {
         id: 'centerText',
         afterDraw: (chart) => {
@@ -135,24 +150,18 @@
             ctx.save();
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
+            const centerX = width / 2;
+            const centerY = height / 2;
             
-            // 時間表示 (シャープに)
             ctx.font = '700 42px Inter';
             ctx.fillStyle = 'white';
-            ctx.fillText('03', width / 2 - 28, height / 2);
-            ctx.fillText('19', width / 2 + 32, height / 2);
+            ctx.fillText('03', centerX - 28, centerY - 5);
+            ctx.fillText('19', centerX + 32, centerY - 5);
             
-            // 単位ラベル
             ctx.font = '600 12px Inter';
             ctx.fillStyle = 'rgba(255,255,255,0.6)';
-            ctx.fillText('時間', width / 2 - 28, height / 2 + 32);
-            ctx.fillText('分', width / 2 + 32, height / 2 + 32);
-            
-            // 上部の「日」
-            ctx.font = '700 12px Inter';
-            ctx.fillStyle = 'rgba(255,255,255,0.4)';
-            ctx.fillText('日', width / 2, height / 2 - 45);
-            
+            ctx.fillText('時間', centerX - 28, centerY + 27);
+            ctx.fillText('分', centerX + 32, centerY + 27);
             ctx.restore();
         }
     };
@@ -176,12 +185,10 @@
         plugins: [centerTextPlugin]
     });
 
-    // --- ゲージ式棒グラフ ---
+    // 棒グラフ
     const ctxBar = document.getElementById('barChart').getContext('2d');
-    
-    // ダミー実績データ
     const actualData = [40, 30, 60, 55, 45, 20, 10];
-    const targetData = [60, 60, 60, 60, 60, 60, 60]; // 目標は一律60分
+    const targetData = [60, 60, 60, 60, 60, 60, 60];
 
     new Chart(ctxBar, {
         type: 'bar',
@@ -189,7 +196,6 @@
             labels: ['月', '火', '水', '木', '金', '土', '日'],
             datasets: [
                 {
-                    // 実績ゲージ（濃い色）
                     label: '実績',
                     data: actualData,
                     backgroundColor: 'white',
@@ -198,14 +204,13 @@
                     order: 1
                 },
                 {
-                    // 目標背景（薄い色）
                     label: '目標',
                     data: targetData,
                     backgroundColor: 'rgba(255, 255, 255, 0.15)',
                     borderRadius: 10,
                     barThickness: 8,
                     order: 2,
-                    grouped: false // 重ねるために必要
+                    grouped: false
                 }
             ]
         },
@@ -213,7 +218,7 @@
             responsive: true,
             maintainAspectRatio: false,
             scales: {
-                y: { display: false, max: 70 }, // 少し余裕を持たせる
+                y: { display: false, max: 75 },
                 x: {
                     grid: { display: false },
                     ticks: { color: 'rgba(255,255,255,0.6)', font: { size: 11, weight: '600' } },
@@ -224,7 +229,22 @@
                 legend: { display: false },
                 tooltip: { enabled: false }
             }
-        }
+        },
+        plugins: [{
+            id: 'barTopLabel',
+            afterDatasetsDraw: (chart) => {
+                const { ctx } = chart;
+                ctx.save();
+                ctx.textAlign = 'center';
+                ctx.fillStyle = 'rgba(255,255,255,0.4)';
+                ctx.font = 'bold 10px Inter';
+                const meta = chart.getDatasetMeta(1);
+                meta.data.forEach((bar, index) => {
+                    ctx.fillText('60', bar.x, bar.y - 8);
+                });
+                ctx.restore();
+            }
+        }]
     });
 </script>
 
