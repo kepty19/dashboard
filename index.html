@@ -22,7 +22,7 @@
             background: radial-gradient(circle at 50% 50%, #FF6B3D 0%, #CE4A22 45%, #2A0B02 100%);
             min-height: 100vh;
             color: white;
-            padding: 16px;
+            padding: 20px;
             margin: 0;
             -webkit-font-smoothing: antialiased;
         }
@@ -46,26 +46,28 @@
             letter-spacing: -0.02em;
         }
         
-        /* 統計テキスト共通設定 */
-        .stat-label { font-size: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.7; }
-        .stat-value { font-size: 1.25rem; font-weight: 700; line-height: 1.2; } /* 高さを揃えるため調整 */
-        .stat-unit { font-size: 8px; font-weight: 600; opacity: 0.7; margin-left: 2px; }
+        /* フォントサイズ全体アップグレード */
+        .section-title { font-size: 1.125rem; font-weight: 600; } /* 18px */
+        .stat-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.7; }
+        .stat-value { font-size: 1.5rem; font-weight: 700; line-height: 1.2; }
+        .stat-unit { font-size: 11px; font-weight: 600; opacity: 0.6; margin-left: 3px; }
         
         @media (min-width: 768px) {
-            .stat-label { font-size: 10px; }
-            .stat-value { font-size: 1.875rem; }
-            .stat-unit { font-size: 12px; }
+            .section-title { font-size: 1.25rem; }
+            .stat-label { font-size: 13px; }
+            .stat-value { font-size: 2rem; }
+            .stat-unit { font-size: 14px; }
         }
     </style>
 </head>
 <body>
 
 <div class="dashboard-container">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
         <div class="flex flex-col">
-            <div class="flex items-center gap-2 mb-4">
-                <div class="w-1.5 h-5 bg-white rounded-full"></div>
-                <h2 class="text-base font-semibold tracking-tight">今週の学習時間</h2>
+            <div class="flex items-center gap-2 mb-6">
+                <div class="w-2 h-6 bg-white rounded-full"></div>
+                <h2 class="section-title tracking-tight">今週の学習時間</h2>
             </div>
             <div class="chart-container flex items-center justify-center">
                 <canvas id="circleChart"></canvas>
@@ -73,106 +75,105 @@
         </div>
 
         <div class="flex flex-col">
-            <div class="flex items-center justify-between mb-2">
-                <div class="flex items-center gap-2">
-                    <div class="w-1.5 h-5 bg-[#FAC3B1] rounded-full"></div>
-                    <h2 class="text-base font-semibold tracking-tight">今週の日次進捗</h2>
+            <div class="flex items-center gap-2 mb-4">
+                <div class="w-2 h-6 bg-[#FAC3B1] rounded-full"></div>
+                <h2 class="section-title tracking-tight">今週の日次進捗</h2>
                 </div>
-                <button class="bg-white/10 hover:bg-white/20 px-3 py-1 rounded-full text-[10px] font-bold border border-white/20 transition">変更</button>
-            </div>
             
-            <div class="flex gap-4 mb-4 text-sharp">
-                <div class="flex flex-col">
-                    <span class="text-[9px] font-bold opacity-60 uppercase tracking-widest mb-0.5">今週の目標</span>
+            <div class="flex justify-center gap-8 mb-6 text-sharp">
+                <div class="flex flex-col items-center">
+                    <span class="stat-label mb-1">今週の目標</span>
                     <div class="flex items-baseline">
-                        <span class="text-lg font-bold">03</span>
-                        <span class="text-[9px] font-medium opacity-60 ml-0.5 mr-1">時間</span>
-                        <span class="text-lg font-bold">30</span>
-                        <span class="text-[9px] font-medium opacity-60 ml-0.5">分</span>
+                        <span class="text-2xl font-bold">03</span>
+                        <span class="text-xs font-medium opacity-60 ml-0.5 mr-1.5">時間</span>
+                        <span class="text-2xl font-bold">30</span>
+                        <span class="text-xs font-medium opacity-60 ml-0.5">分</span>
                     </div>
                 </div>
-                <div class="flex flex-col">
-                    <span class="text-[9px] font-bold opacity-60 uppercase tracking-widest mb-0.5">今週の総学習時間</span>
+                <div class="flex flex-col items-center border-l border-white/10 pl-8">
+                    <span class="stat-label mb-1">今週の総学習時間</span>
                     <div class="flex items-baseline text-white">
-                        <span class="text-lg font-bold">03</span>
-                        <span class="text-[9px] font-medium opacity-60 ml-0.5 mr-1">時間</span>
-                        <span class="text-lg font-bold">19</span>
-                        <span class="text-[9px] font-medium opacity-60 ml-0.5">分</span>
+                        <span class="text-2xl font-bold">03</span>
+                        <span class="text-xs font-medium opacity-60 ml-0.5 mr-1.5">時間</span>
+                        <span class="text-2xl font-bold">19</span>
+                        <span class="text-xs font-medium opacity-60 ml-0.5">分</span>
                     </div>
                 </div>
             </div>
 
-            <div class="relative h-[160px] w-full bg-white/5 rounded-2xl p-3">
-                <div class="absolute right-2 top-2 text-[9px] font-bold opacity-50">(分)</div>
+            <div class="relative h-[160px] w-full bg-white/5 rounded-2xl p-4">
+                <div class="absolute right-3 top-3 text-[10px] font-bold opacity-50">(分)</div>
                 <canvas id="barChart"></canvas>
             </div>
         </div>
     </div>
 
-    <div class="mb-8">
-        <div class="flex items-center gap-2 mb-4">
-            <div class="w-1.5 h-5 bg-[#FAC3B1] rounded-full opacity-60"></div>
-            <h2 class="text-base font-semibold tracking-tight">比較</h2>
+    <div class="mb-10">
+        <div class="flex items-center gap-2 mb-5">
+            <div class="w-2 h-6 bg-[#FAC3B1] rounded-full opacity-60"></div>
+            <h2 class="section-title tracking-tight">比較</h2>
         </div>
-        <div class="grid grid-cols-2 gap-4">
-            <div class="glass-card p-4 flex flex-col items-center">
-                <span class="stat-label mb-2">対前日</span>
+        <div class="grid grid-cols-2 gap-5">
+            <div class="glass-card p-5 flex flex-col items-center">
+                <span class="stat-label mb-3">対前日</span>
                 <div class="flex items-center text-sharp">
-                    <i data-lucide="trending-up" class="w-4 h-4 text-emerald-400 mr-2"></i>
-                    <span class="text-xl font-bold">+15</span>
-                    <span class="stat-unit text-emerald-400">分</span>
+                    <i data-lucide="trending-up" class="w-5 h-5 text-emerald-400 mr-2"></i>
+                    <span class="text-2xl font-bold text-white">+15</span>
+                    <span class="stat-unit">分</span>
                 </div>
             </div>
-            <div class="glass-card p-4 flex flex-col items-center">
-                <span class="stat-label mb-2">対前週</span>
+            <div class="glass-card p-5 flex flex-col items-center">
+                <span class="stat-label mb-3">対前週</span>
                 <div class="flex items-center text-sharp">
-                    <i data-lucide="trending-up" class="w-4 h-4 text-emerald-400 mr-2"></i>
-                    <span class="text-xl font-bold">+2</span>
-                    <span class="stat-unit text-emerald-400">時間</span>
+                    <i data-lucide="trending-up" class="w-5 h-5 text-emerald-400 mr-2"></i>
+                    <span class="text-2xl font-bold text-white">+2</span>
+                    <span class="stat-unit">時間</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <div>
-        <div class="flex items-center gap-2 mb-4">
-            <div class="w-1.5 h-5 bg-white/40 rounded-full"></div>
-            <h2 class="text-base font-semibold tracking-tight">累計</h2>
+    <div class="pb-10">
+        <div class="flex items-center gap-2 mb-5">
+            <div class="w-2 h-6 bg-white/40 rounded-full"></div>
+            <h2 class="section-title tracking-tight">累計</h2>
         </div>
         
-        <div class="grid grid-cols-3 gap-2 md:gap-4">
-            <div class="glass-card p-3 md:p-5 flex flex-col justify-between">
-                <div class="flex items-center gap-1.5 mb-3">
-                    <i data-lucide="clock" class="w-3 h-3 md:w-4 md:h-4 opacity-70"></i>
+        <div class="grid grid-cols-3 gap-3 md:gap-6">
+            <div class="glass-card p-4 md:p-6 flex flex-col justify-between">
+                <div class="flex items-center gap-2 mb-4">
+                    <i data-lucide="clock" class="w-4 h-4 opacity-70"></i>
                     <span class="stat-label">総学習時間</span>
                 </div>
                 <div class="flex items-baseline justify-end text-sharp">
                     <span class="stat-value">300</span>
                     <span class="stat-unit">時間</span>
                 </div>
-                <div class="h-4"></div> </div>
+                <div class="h-4"></div>
+            </div>
 
-            <div class="glass-card p-3 md:p-5 flex flex-col justify-between">
-                <div class="flex items-center gap-1.5 mb-3">
-                    <i data-lucide="calendar-check" class="w-3 h-3 md:w-4 md:h-4 opacity-70"></i>
+            <div class="glass-card p-4 md:p-6 flex flex-col justify-between">
+                <div class="flex items-center gap-2 mb-4">
+                    <i data-lucide="calendar-check" class="w-4 h-4 opacity-70"></i>
                     <span class="stat-label">総学習日数</span>
                 </div>
                 <div class="flex items-baseline justify-end text-sharp">
                     <span class="stat-value">6,129</span>
                     <span class="stat-unit">日</span>
                 </div>
-                <div class="h-4"></div> </div>
+                <div class="h-4"></div>
+            </div>
 
-            <div class="glass-card p-3 md:p-5 flex flex-col justify-between">
-                <div class="flex items-center gap-1.5 mb-3">
-                    <i data-lucide="calendar" class="w-3 h-3 md:w-4 md:h-4 opacity-70"></i>
+            <div class="glass-card p-4 md:p-6 flex flex-col justify-between">
+                <div class="flex items-center gap-2 mb-4">
+                    <i data-lucide="calendar" class="w-4 h-4 opacity-70"></i>
                     <span class="stat-label">連続日数</span>
                 </div>
                 <div class="flex items-baseline justify-end text-sharp">
                     <span class="stat-value">445</span>
                     <span class="stat-unit">日</span>
                 </div>
-                <p class="text-[7px] md:text-[9px] font-bold opacity-40 text-right mt-2">自己ベスト:445日</p>
+                <p class="text-[10px] font-bold opacity-40 text-right mt-2">自己ベスト:445日</p>
             </div>
         </div>
     </div>
@@ -192,14 +193,14 @@
             const centerX = width / 2;
             const centerY = height / 2;
             const isMobile = window.innerWidth < 768;
-            ctx.font = `700 ${isMobile ? '32px' : '42px'} Inter`;
+            ctx.font = `700 ${isMobile ? '36px' : '48px'} Inter`;
             ctx.fillStyle = 'white';
-            ctx.fillText('03', centerX - (isMobile ? 22 : 28), centerY - 5);
-            ctx.fillText('19', centerX + (isMobile ? 24 : 32), centerY - 5);
-            ctx.font = `600 ${isMobile ? '10px' : '12px'} Inter`;
+            ctx.fillText('03', centerX - (isMobile ? 24 : 32), centerY - 5);
+            ctx.fillText('19', centerX + (isMobile ? 26 : 36), centerY - 5);
+            ctx.font = `600 ${isMobile ? '12px' : '14px'} Inter`;
             ctx.fillStyle = 'rgba(255,255,255,0.6)';
-            ctx.fillText('時間', centerX - (isMobile ? 22 : 28), centerY + (isMobile ? 20 : 27));
-            ctx.fillText('分', centerX + (isMobile ? 24 : 32), centerY + (isMobile ? 20 : 27));
+            ctx.fillText('時間', centerX - (isMobile ? 24 : 32), centerY + (isMobile ? 25 : 35));
+            ctx.fillText('分', centerX + (isMobile ? 26 : 36), centerY + (isMobile ? 25 : 35));
             ctx.restore();
         }
     };
@@ -233,14 +234,14 @@
                     data: [40, 30, 60, 55, 45, 20, 10],
                     backgroundColor: 'white',
                     borderRadius: 10,
-                    barThickness: window.innerWidth < 768 ? 5 : 8,
+                    barThickness: window.innerWidth < 768 ? 6 : 10,
                     order: 1
                 },
                 {
                     data: [60, 60, 60, 60, 60, 60, 60],
                     backgroundColor: 'rgba(255, 255, 255, 0.15)',
                     borderRadius: 10,
-                    barThickness: window.innerWidth < 768 ? 5 : 8,
+                    barThickness: window.innerWidth < 768 ? 6 : 10,
                     order: 2,
                     grouped: false
                 }
@@ -253,7 +254,7 @@
                 y: { display: false, max: 75 },
                 x: {
                     grid: { display: false },
-                    ticks: { color: 'rgba(255,255,255,0.6)', font: { size: 10, weight: '600' } },
+                    ticks: { color: 'rgba(255,255,255,0.6)', font: { size: 11, weight: '600' } },
                     border: { display: false }
                 }
             },
@@ -266,10 +267,10 @@
                 ctx.save();
                 ctx.textAlign = 'center';
                 ctx.fillStyle = 'rgba(255,255,255,0.4)';
-                ctx.font = 'bold 9px Inter';
+                ctx.font = 'bold 10px Inter';
                 const meta = chart.getDatasetMeta(1);
                 meta.data.forEach((bar, index) => {
-                    ctx.fillText('60', bar.x, bar.y - 8);
+                    ctx.fillText('60', bar.x, bar.y - 10);
                 });
                 ctx.restore();
             }
