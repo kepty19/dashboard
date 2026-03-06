@@ -35,7 +35,6 @@
             border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.15);
         }
-        /* スマホでグラフが消えるのを防ぐための高さ固定 */
         .chart-container {
             position: relative;
             width: 100% !important;
@@ -119,7 +118,7 @@
             </div>
 
             <div class="relative h-[180px] w-full bg-white/5 rounded-2xl p-4">
-                <div class="absolute right-4 top-3 text-[10px] font-bold opacity-50">(分)</div>
+                <div class="absolute right-2 top-1.5 text-[10px] font-bold opacity-50">(分)</div>
                 <canvas id="barChart"></canvas>
             </div>
         </div>
@@ -199,28 +198,25 @@
 <script>
     lucide.createIcons();
 
-    // --- グラフ表示崩れ対策を施した描画処理 ---
+    // --- 円形グラフ ---
     const ctxCircle = document.getElementById('circleChart');
     if (ctxCircle) {
         const centerTextPlugin = {
             id: 'centerText',
             afterDraw: (chart) => {
                 const { ctx, chartArea } = chart;
-                if (!chartArea) return; // 描画エリアがない場合は何もしない
-                
-                const { width, height } = chartArea;
-                ctx.save();
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
+                if (!chartArea) return;
                 const centerX = (chartArea.left + chartArea.right) / 2;
                 const centerY = (chartArea.top + chartArea.bottom) / 2;
                 const isMobile = window.innerWidth < 768;
 
+                ctx.save();
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
                 ctx.font = `700 ${isMobile ? '40px' : '52px'} Inter`;
                 ctx.fillStyle = 'white';
                 ctx.fillText('03', centerX - (isMobile ? 26 : 34), centerY - 5);
                 ctx.fillText('19', centerX + (isMobile ? 28 : 38), centerY - 5);
-                
                 ctx.font = `600 ${isMobile ? '12px' : '16px'} Inter`;
                 ctx.fillStyle = 'rgba(255,255,255,0.6)';
                 ctx.fillText('時間', centerX - (isMobile ? 26 : 34), centerY + (isMobile ? 30 : 40));
@@ -249,6 +245,7 @@
         });
     }
 
+    // --- 棒グラフ ---
     const ctxBar = document.getElementById('barChart');
     if (ctxBar) {
         new Chart(ctxBar.getContext('2d'), {
