@@ -42,7 +42,7 @@
         }
         .text-sharp { letter-spacing: -0.02em; }
         
-        /* 累計用ラベル（1行限界サイズ） */
+        /* 累計用ラベル */
         .stat-label { 
             font-size: 11px; 
             font-weight: 700; 
@@ -52,14 +52,14 @@
             white-space: nowrap; 
         }
 
-        /* 比較用ラベル（アンダーライン付き） */
+        /* 比較用ラベル（アンダーラインをオレンジに修正） */
         .compare-label-accent {
             font-size: 13px; 
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.15em;
-            color: rgba(255, 255, 255, 0.6);
-            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.8);
+            border-bottom: 2px solid var(--kepty-orange); /* オレンジ色に変更 */
             padding-bottom: 4px;
             margin-bottom: 12px;
             display: inline-block;
@@ -93,12 +93,12 @@
         <div class="flex flex-col">
             <div class="flex items-center gap-2 mb-6">
                 <div class="w-2 h-6 bg-[#FAC3B1] rounded-full"></div>
-                <h2 class="text-xl font-bold tracking-tight">今週の日次進捗</h2>
+                <h2 class="text-xl font-bold tracking-tight">現在の進捗</h2>
             </div>
             
             <div class="flex justify-center gap-10 mb-8 text-sharp">
                 <div class="flex flex-col items-center">
-                    <span class="stat-label mb-1">今週の目標</span>
+                    <span class="stat-label mb-1 text-white/60">今週の目標</span>
                     <div class="flex items-baseline">
                         <span class="text-3xl font-bold">03</span>
                         <span class="text-sm font-medium opacity-60 ml-0.5 mr-2">時間</span>
@@ -107,7 +107,7 @@
                     </div>
                 </div>
                 <div class="flex flex-col items-center border-l border-white/10 pl-10">
-                    <span class="stat-label mb-1">今週の総学習時間</span>
+                    <span class="stat-label mb-1 text-white/60">今週の総学習時間</span>
                     <div class="flex items-baseline text-white">
                         <span class="text-3xl font-bold">03</span>
                         <span class="text-sm font-medium opacity-60 ml-0.5 mr-2">時間</span>
@@ -131,7 +131,7 @@
         </div>
         <div class="grid grid-cols-2 gap-4">
             <div class="glass-card p-8 flex flex-col items-center justify-center">
-                <div class="compare-label-accent">対前日</div>
+                <div class="compare-label-accent">貯金・借金</div>
                 <div class="flex items-center text-sharp">
                     <i data-lucide="trending-up" class="w-6 h-6 text-emerald-400 mr-2"></i>
                     <span class="text-3xl font-bold text-white">+15</span>
@@ -139,7 +139,7 @@
                 </div>
             </div>
             <div class="glass-card p-8 flex flex-col items-center justify-center">
-                <div class="compare-label-accent">対前週</div>
+                <div class="compare-label-accent">着地予測</div>
                 <div class="flex items-center text-sharp">
                     <i data-lucide="trending-up" class="w-6 h-6 text-emerald-400 mr-2"></i>
                     <span class="text-3xl font-bold text-white">+2</span>
@@ -198,7 +198,7 @@
 <script>
     lucide.createIcons();
 
-    // --- 円形グラフ ---
+    // グラフ描画プラグイン
     const ctxCircle = document.getElementById('circleChart');
     if (ctxCircle) {
         const centerTextPlugin = {
@@ -245,7 +245,6 @@
         });
     }
 
-    // --- 棒グラフ ---
     const ctxBar = document.getElementById('barChart');
     if (ctxBar) {
         new Chart(ctxBar.getContext('2d'), {
